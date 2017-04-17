@@ -1,8 +1,8 @@
-# Getting Started with the picoCTF Platform 2#
+# Getting Started with the nscCTF Platform 2#
 
 1. [Setting Up a Development Environment](#devenv)
 	- [What if I don't want to use Vagrant?](#devenv-novagrant)
-- [Starting the picoCTF Platform](#starting)
+- [Starting the nscCTF Platform](#starting)
 - [Competition Quick Start](#quickstart)
 	- [Ending the Competition](#quickstart-ending)
 - [Problems](#problems)
@@ -40,24 +40,24 @@
 
 ## <a name="devenv"></a> Setting up a Development Environment ##
 
-In order to facilitate development by different users with different systems, the picoCTF Platform uses [Vagrant](http://vagrantup.com "Vagrant") to create an identical Linux setup across platforms. Vagrant works on top of any number of different virtualization [providers](https://docs.vagrantup.com/v2/providers/ "providers"), though we recommend [VirtualBox](https://www.virtualbox.org/ "VirtualBox"), since this is the one we have used with the most success.
+In order to facilitate development by different users with different systems, the nscCTF Platform uses [Vagrant](http://vagrantup.com "Vagrant") to create an identical Linux setup across platforms. Vagrant works on top of any number of different virtualization [providers](https://docs.vagrantup.com/v2/providers/ "providers"), though we recommend [VirtualBox](https://www.virtualbox.org/ "VirtualBox"), since this is the one we have used with the most success.
 
 After installing VirtualBox and Vagrant, follow these steps to get your development environment up and running:
 
-1. Clone the `picoCTF-Platform-2` repository.
-2. Inside the repository, run `vagrant up`. This will download an Ubuntu 14.04 image, create a new VM, then execute a set of setup scripts inside that VM that install the necessary dependencies for the picoCTF Platform. Note that this process can take a long time (about 30 minutes from scratch).
+1. Clone the `nscCTF-Platform-2` repository.
+2. Inside the repository, run `vagrant up`. This will download an Ubuntu 14.04 image, create a new VM, then execute a set of setup scripts inside that VM that install the necessary dependencies for the nscCTF Platform. Note that this process can take a long time (about 30 minutes from scratch).
 3. Once the setup is completed, run `vagrant ssh` to connect to the development VM.
 
 There are many other useful [Vagrant commands](http://docs.vagrantup.com/v2/cli/ "Vagrant commands") that it will be useful to be familiar with, such as `vagrant suspend` to suspend your development VM and `vagrant reload` to restart it.
 
 
 ###<a name="devenv-novagrant"></a>  What if I don't want to use Vagrant?
-You do not need to use either Vagrant or VirtualBox to run the picoCTF Platform. This is purely to ease development. You can always run the picoCTF Platform directly on Ubuntu 14.04 or a similar Linux distribution by running the `scripts/vagrant_setup.sh` directly on the target machine (as root). This is the recommended approach for setting up the picoCTF Platform on a production server.
+You do not need to use either Vagrant or VirtualBox to run the nscCTF Platform. This is purely to ease development. You can always run the nscCTF Platform directly on Ubuntu 14.04 or a similar Linux distribution by running the `scripts/vagrant_setup.sh` directly on the target machine (as root). This is the recommended approach for setting up the nscCTF Platform on a production server.
 
 
-## <a name="starting"></a> Starting the picoCTF Platform ##
+## <a name="starting"></a> Starting the nscCTF Platform ##
 
-Once inside your development VM, you can launch the picoCTF Platform by running the `devploy` command. This will deploy the latest version of your code to be served by the web server, then restart both the web server and the picoCTF API.
+Once inside your development VM, you can launch the nscCTF Platform by running the `devploy` command. This will deploy the latest version of your code to be served by the web server, then restart both the web server and the nscCTF API.
 
 You should now be able to visit the deployed site in a browser at `127.0.0.1:8080` on the host machine (or `127.0.0.1` directly on the VM). Note that going to `localhost` will display the site, but will **not** handle cookies correctly.
 
@@ -69,13 +69,13 @@ Assuming you have already created and added your problems (see next section), th
 - Change the value of `api.app.session_cookie_domain` in `api/api/config.py` to the domain you will be using to host your competition.
 - Change the value of `start_time` and `end_time` in `api/api/config.py` to the start and end dates of your competition.
 - (Optional) Add SMTP information in `api/api/config.py` to enable recovery of lost passwords
-- Edit `scripts/devploy` to replace the line `tmux new-session -s picoapi -d "cd /home/vagrant/api && python3 run.py"` with `cd /home/vagrant/api && ./gunicorn_start.sh &`. This will cause the picoCTF platform to use [Gunicorn](http://flask.pocoo.org/docs/0.10/deploying/wsgi-standalone/) to run the API.
+- Edit `scripts/devploy` to replace the line `tmux new-session -s picoapi -d "cd /home/vagrant/api && python3 run.py"` with `cd /home/vagrant/api && ./gunicorn_start.sh &`. This will cause the nscCTF platform to use [Gunicorn](http://flask.pocoo.org/docs/0.10/deploying/wsgi-standalone/) to run the API.
 - Run `devploy` to copy the static files to the server directory and launch the API.
 - Start the scoreboard with `python3 daemon_manager.py -i 300 cache_stats` in the `api` folder. Change 300, which represents how the number of seconds between scoreboard refreshes, to whatever interval you prefer. It is recommended that you run this command under `tmux` or `screen`.
 
 ### <a name="quickstart-ending"></a> Ending the Competition
 
-Once the competition end date (as specified in `api/api/config.py`) is reached, submissions will no longer be accepted. This may or may not be what you want to have happen at the end of your competition. For picoCTF, we leave the competition online, but fix the *scoreboard* at the end of the competition. To accomplish this, we initially set the end date to the end of the competition to ensure that the scoreboard could not be changed after the competition. We then copied the scoreboard itself as raw HTML and replaced the contents of `web/scoreboard.html` with the scoreboard dump. Finally, we moved the competition end date to an indefinite future date to re-allow submissions, knowing that they would not affect the final (now static) scoreboard.
+Once the competition end date (as specified in `api/api/config.py`) is reached, submissions will no longer be accepted. This may or may not be what you want to have happen at the end of your competition. For nscCTF, we leave the competition online, but fix the *scoreboard* at the end of the competition. To accomplish this, we initially set the end date to the end of the competition to ensure that the scoreboard could not be changed after the competition. We then copied the scoreboard itself as raw HTML and replaced the contents of `web/scoreboard.html` with the scoreboard dump. Finally, we moved the competition end date to an indefinite future date to re-allow submissions, knowing that they would not affect the final (now static) scoreboard.
 
 ## <a name="problems"></a> Problems
 
@@ -113,7 +113,7 @@ Some problems need to provide additional files for the user to view or download 
 
 ### <a name="problems-autogen"></a> Autogen Problems
 
-Automatically generated (autogen) problems allow different teams to receive different versions of the same challenge. For example, the picoCTF 2014 problem `Substitution` (a substitution cipher problem) uses different letter mappings and Disney song lyrics for different problem instances. This has numerous advantages, including the prevention and detection of flag sharing between teams.
+Automatically generated (autogen) problems allow different teams to receive different versions of the same challenge. For example, the nscCTF 2014 problem `Substitution` (a substitution cipher problem) uses different letter mappings and Disney song lyrics for different problem instances. This has numerous advantages, including the prevention and detection of flag sharing between teams.
 
 Before deploying a competition, you need to generate some number of autogen problem instances per autogen problem. These instances will serve as a pool of possible versions of the problem. During the competition, teams will randomly be assigned one autogen instance from the pool of available instances.
 
@@ -163,7 +163,7 @@ Note that autogen problems must set two additional fields in the `problem.json` 
 
 The category of a problem is specified in the "category" field of the `problem.json` file. Note that there is not a fixed set of categories; you may use any free-form category name. Many features, such as the code to generate problem statistics, will group problems by category name. Thus, it is useful to make sure that you are consistent in your spelling and formatting for each category name.
 
-If you plan on using the existing achievements from picoCTF, you will need to edit the "Category Completion" and "Category Solved 5" achievements based on your new category names.
+If you plan on using the existing achievements from nscCTF, you will need to edit the "Category Completion" and "Category Solved 5" achievements based on your new category names.
 
 ### <a name="problems-loading"></a> Loading Problems
 
@@ -197,11 +197,11 @@ Once you have removed the problems, you can load in the new versions as describe
 
 ### <a name="customizingsite-jekyll"></a> Jekyll and Static Templates
 
-Web pages for the picoCTF Platform are built using static [Jekyll](http://jekyllrb.com/ "Jekyll") templates. When `devploy` is run, the Jekyll templates are compiled into static HTML pages, which are then served directly by Nginx. 
+Web pages for the nscCTF Platform are built using static [Jekyll](http://jekyllrb.com/ "Jekyll") templates. When `devploy` is run, the Jekyll templates are compiled into static HTML pages, which are then served directly by Nginx. 
 
 The main layout file for the entire site is stored in `web/_layouts/default.html`, which includes other additional important files, such as `web/_includes/header.html` (the navbar), `/web/_includes/head.html` (the contents of `<head>`, including the various CSS and JS files that need to be loaded), and `web/_includes/footer.html`. Editing these files will affect all of the pages on the site.
 
-The file `web/_config.yml` contains global settings related to Jekyll templates. For example, in this file the name of the site can be changed from "picoCTF Platform 2" to whatever name you would like the title of your competition to be.
+The file `web/_config.yml` contains global settings related to Jekyll templates. For example, in this file the name of the site can be changed from "nscCTF Platform 2" to whatever name you would like the title of your competition to be.
 
 The `web/_posts` folder is a special folder used to store posts to be displayed on the "News" page. Placing markdown files here will automatically add them to both the News page and the site RSS feed. Check out the ["Jekyll Documentation"](http://jekyllrb.com/docs/posts/ "Jekyll Documentation") for more information.
 
@@ -237,7 +237,7 @@ The links displayed on the navbar (the menu bar at the top of every page) are no
 
 All of the links displayed in different contexts are defined in the CoffeeScript file `web/coffee/navbar.coffee`. Consider the following menu definition:
 
-	teacherLoggedInNoCompetition =
+	mentorLoggedInNoCompetition =
 	  Classroom: "/classroom"
 	  About: "/about"
 	  News: "/news"
@@ -245,15 +245,15 @@ All of the links displayed in different contexts are defined in the CoffeeScript
 	    Manage: "/account"
 	    Logout: "#"
 
-This defines the navbar that will be displayed for a teacher account that is logged in outside of the competition dates (defined in `api/api/config.py`). The dictionary "keys" dictate the text that appears on the navbar buttons, while the "values" serve as the link targets. Note that you can nest these definitions (as with "Account") to create navbar items with dropdown menus. Generated navbar buttons have predictable names ("navbar-item-" + lower case button text with spaces replaced with underscores) if you want to bind JavaScript functions to them (as is done with "Logout").
+This defines the navbar that will be displayed for a mentor account that is logged in outside of the competition dates (defined in `api/api/config.py`). The dictionary "keys" dictate the text that appears on the navbar buttons, while the "values" serve as the link targets. Note that you can nest these definitions (as with "Account") to create navbar items with dropdown menus. Generated navbar buttons have predictable names ("navbar-item-" + lower case button text with spaces replaced with underscores) if you want to bind JavaScript functions to them (as is done with "Logout").
 
 ### <a name="customizingsite-options"></a> Configuring Site Options
 
-Most configuration settings for the picoCTF Platform are specified in `api/api/config.py`. Useful setting values include:
+Most configuration settings for the nscCTF Platform are specified in `api/api/config.py`. Useful setting values include:
 
 - The hostname or IP of the server hosting the platform (used for cookies)
 - The name of the competition (as used by the API)
-- Optional features, such as teacher accounts, problem feedback, and achievements
+- Optional features, such as mentor accounts, problem feedback, and achievements
 - Database settings
 - The competition start and end date
 - Emails to contact in cases of critical errors (requires setting up an SMTP server)
@@ -262,7 +262,7 @@ Changing these settings is as easy as editing the relevant Python assignments. N
 
 ### <a name="customizingsite-coffeescript"></a> CoffeeScript
 
-All of the client-side code for the picoCTF Platform is written in [CoffeeScript](http://coffeescript.org/). When `devploy` is used to deploy the site, all CoffeeScript files in `web/coffee` are compiled to JavaScript and stored in `web/js` before being copied to the server directory. This means that any edits to the client-side code should occur in the relevant `.coffee` file NOT the `.js` file.
+All of the client-side code for the nscCTF Platform is written in [CoffeeScript](http://coffeescript.org/). When `devploy` is used to deploy the site, all CoffeeScript files in `web/coffee` are compiled to JavaScript and stored in `web/js` before being copied to the server directory. This means that any edits to the client-side code should occur in the relevant `.coffee` file NOT the `.js` file.
 
 ### <a name="customizingsite-analytics"></a> Adding Google Analytics
 
@@ -318,7 +318,7 @@ The *hidden* and *smallimage* fields are deprecated.
 
 ### <a name="achievements-script"></a> Creating a Processor Script ###
 
-An achievement *processor* script is expected to implement the following interface: `process(api, data)` where `api` is an imported version of the top level picoCTF API library and `data` contains extra information based on the achievement's `event` type.
+An achievement *processor* script is expected to implement the following interface: `process(api, data)` where `api` is an imported version of the top level nscCTF API library and `data` contains extra information based on the achievement's `event` type.
 
 The `data` dictionary has the following values based on the event:
 
@@ -393,13 +393,13 @@ The Python API is designed to run out of the `api` folder (not to be confused wi
 
 ### <a name="competitiondata-stats"></a> Getting Statistics
 
-The `api/api/stats.py` file provides a number of useful statistics-gathering functions for the picoCTF Platform. You can obtain most of the interesting statistics by running the function `get_stats()`.
+The `api/api/stats.py` file provides a number of useful statistics-gathering functions for the nscCTF Platform. You can obtain most of the interesting statistics by running the function `get_stats()`.
 
 Note that with the exception of the scoreboard functionality, the functions in `api/api/stats.py` are designed to be run by an administrator in the background and are likely too slow to be served directly to users.  
 
 ### <a name="competitiondata-reviews"></a> Getting Review Data Directly
 
-The picoCTF Platform allows users to provide feedback on whether or not they found a problem interesting, educational, etc. This information is then stored in the MongoDB collection `problem_feedback`. Based on how you want to use the review data, you may want to query the database directly. Running the command `db.problem_feedback.find({}, {"pid": true, "feedback.comment": true})` in the MongoDB terminal, for example, will yield all of the text comments provided in problem reviews.
+The nscCTF Platform allows users to provide feedback on whether or not they found a problem interesting, educational, etc. This information is then stored in the MongoDB collection `problem_feedback`. Based on how you want to use the review data, you may want to query the database directly. Running the command `db.problem_feedback.find({}, {"pid": true, "feedback.comment": true})` in the MongoDB terminal, for example, will yield all of the text comments provided in problem reviews.
 
 The `get_review_stats` and `print_review_comments` functions in `api/api/stats.py` are also useful for easily accessing data from problem reviews.
 
@@ -423,11 +423,11 @@ Note that to actually mark the team as ineligible, you will need to run the `det
 
 ## <a name="eligibility"></a> Eligibility
 
-The picoCTF Platform supports the notion of teams that are *eligible* and teams that are *ineligible*. The key difference between these two team types is that ineligible teams do not show up on the main scoreboard. Ineligible teams may, however, show up on Classroom scoreboards. Some of the included achievements also rely on eligibility. The "Breakthrough" achievement, for example, is earned by the first *eligible* team that solves a given challenge.
+The nscCTF Platform supports the notion of teams that are *eligible* and teams that are *ineligible*. The key difference between these two team types is that ineligible teams do not show up on the main scoreboard. Ineligible teams may, however, show up on Classroom scoreboards. Some of the included achievements also rely on eligibility. The "Breakthrough" achievement, for example, is earned by the first *eligible* team that solves a given challenge.
 
-A team is *eligible* if every member of the team meets a certain set of criteria. For picoCTF, the requirement is that each team member must be a middle or high school student from the United States. For the picoCTF Platform, there is no requirement by default. To adjust the eligibility criteria, you will need to modify the code in several places.
+A team is *eligible* if every member of the team meets a certain set of criteria. For nscCTF, the requirement is that each team member must be a middle or high organization student from the United States. For the nscCTF Platform, there is no requirement by default. To adjust the eligibility criteria, you will need to modify the code in several places.
 
-First, edit the `eligible = True` line in the `create_user_request` function in `api/api/user.py`. picoCTF 2014, for example, has the following line instead:
+First, edit the `eligible = True` line in the `create_user_request` function in `api/api/user.py`. nscCTF 2014, for example, has the following line instead:
 
 	eligible = params['country'] == "US" and params['background'] in ['student_el', 'student_ms', 'student_hs', 'student_home']
 
@@ -435,7 +435,7 @@ Whenever the members of team change, the function `determine_eligibility` in `/a
 
 ### <a name="eligibility-other"></a> Other Cases
 
-Teacher Accounts are special accounts that can create Class Groups and cannot join teams. In order to allow Teacher Accounts to play through the competition, each Teacher Account is associated with a unique hidden team with the prefix "TEACHER-". These Teacher Account teams are always marked as ineligible and are not designed to ever show up on any scoreboard.
+mentor Accounts are special accounts that can create Class Groups and cannot join teams. In order to allow mentor Accounts to play through the competition, each mentor Account is associated with a unique hidden team with the prefix "mentor-". These mentor Account teams are always marked as ineligible and are not designed to ever show up on any scoreboard.
 
 If all members of a team disable their accounts, then a team will be marked as ineligible.
 
@@ -449,7 +449,7 @@ Team eligibility is recalculated every time a new member joins or leaves a team 
 
 ### <a name="security-passphrase"></a> Setting the Passphrase
 
-The picoCTF Platform uses encrypted cookies to store session information without the need to store session state server side. In order to prevent session hijacking, you MUST change the application secret key. To change the key, edit the `api.app.secret_key` value in `api/api/config.py`. Be sure to use an unpredictable and reasonably long value for the key.
+The nscCTF Platform uses encrypted cookies to store session information without the need to store session state server side. In order to prevent session hijacking, you MUST change the application secret key. To change the key, edit the `api.app.secret_key` value in `api/api/config.py`. Be sure to use an unpredictable and reasonably long value for the key.
 
 ### <a name="security-password"></a> Note on the Team Password
 
@@ -457,8 +457,8 @@ Passwords for individual users are stored in the database as salted hashes. *Tea
 
 ### <a name="security-database"></a> Protecting the Database
 
-The default MongoDB configuration used by the picoCTF Platform blocks all non-local connections and therefore does not use password authentication for local users. This means that if you use the server with the database to also host CTF problems that give shell access to users, you MUST [take steps to control access to the database](http://docs.mongodb.org/manual/tutorial/enable-authentication/).
+The default MongoDB configuration used by the nscCTF Platform blocks all non-local connections and therefore does not use password authentication for local users. This means that if you use the server with the database to also host CTF problems that give shell access to users, you MUST [take steps to control access to the database](http://docs.mongodb.org/manual/tutorial/enable-authentication/).
 
 ### <a name="security-csrf"></a> CSRF Defenses
 
-For design reasons, the picoCTF Platform does not use tokens embedded in `<form>` tags in order to prevent CSRF attacks. Instead, it uses the [Double Submit Cookies](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet#Double_Submit_Cookies) method in which a token is read from a cookie and submitted with requests that need to be protected. This happens transparently client-side, as long as a request goes through the `apiCall` function (see `web/coffee/dependencies.coffee`). Server-side, API requests that need CSRF protection should use the `@check_csrf` annotation to indicate that checking the value of the submitted cookie is required.
+For design reasons, the nscCTF Platform does not use tokens embedded in `<form>` tags in order to prevent CSRF attacks. Instead, it uses the [Double Submit Cookies](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet#Double_Submit_Cookies) method in which a token is read from a cookie and submitted with requests that need to be protected. This happens transparently client-side, as long as a request goes through the `apiCall` function (see `web/coffee/dependencies.coffee`). Server-side, API requests that need CSRF protection should use the `@check_csrf` annotation to indicate that checking the value of the submitted cookie is required.

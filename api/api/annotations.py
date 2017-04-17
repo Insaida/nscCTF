@@ -84,16 +84,16 @@ def require_login(f):
         return f(*args, **kwds)
     return wrapper
 
-def require_teacher(f):
+def require_mentor(f):
     """
-    Wraps routing functions that require a user to be a teacher
+    Wraps routing functions that require a user to be a mentor
     """
 
     @require_login
     @wraps(f)
     def wrapper(*args, **kwds):
-        if not api.user.is_teacher() or not api.config.enable_teachers:
-            raise WebException("You must be a teacher!")
+        if not api.user.is_mentor() or not api.config.enable_mentors:
+            raise WebException("You must be a mentor!")
         return f(*args, **kwds)
     return wrapper
 

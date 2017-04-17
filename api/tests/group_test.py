@@ -10,7 +10,7 @@ import bcrypt
 
 from api.common import WebException, InternalException
 from common import clear_collections, ensure_empty_collections
-from common import teacher_user
+from common import mentor_user
 from conftest import setup_db, teardown_db
 
 class TestGroups(object):
@@ -21,14 +21,14 @@ class TestGroups(object):
     base_teams = [
         {
             "team_name": "team" + str(i),
-            "school": "Test HS",
+            "organization": "Test HS",
             "password": "much_protected"
         }
         for i in range(5)
     ]
 
     base_group = {
-        "group-owner": teacher_user["username"],
+        "group-owner": mentor_user["username"],
         "group-name": "group_yo"
     }
 
@@ -40,7 +40,7 @@ class TestGroups(object):
         for team in self.base_teams:
             self.tids.append(api.team.create_team(team))
 
-        self.owner_uid = api.user.create_user_request(teacher_user)
+        self.owner_uid = api.user.create_user_request(mentor_user)
         self.owner_tid = api.user.get_team(uid=self.owner_uid)['tid']
 
     def teardown_class(self):
@@ -91,7 +91,7 @@ class TestGroups(object):
         gid = api.group.create_group_request(self.base_group, self.owner_uid)
         name = api.group.get_group(gid=gid)["name"]
 
-        params = {"group-name": name, "group-owner": teacher_user["username"]}
+        params = {"group-name": name, "group-owner": mentor_user["username"]}
 
         for tid in self.tids:
             if tid is not self.owner_tid:

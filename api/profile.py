@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-picoCTF Profiling script
+nscCTF Profiling script
 """
 from pyinstrument import Profiler
 from line_profiler import LineProfiler
@@ -25,7 +25,7 @@ def register_users(users):
             "team-name-new": "team" + str(i),
             "team-adv-name-new": "Dr. Hacks",
             "team-adv-email-new": "hacks@hs.edu",
-            "team-school-new": "Hacks HS",
+            "team-organization-new": "Hacks HS",
             "team-password-new": "leet_hax"
         }
         for i in range(users)

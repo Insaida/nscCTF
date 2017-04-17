@@ -37,20 +37,24 @@ testing_mongo_port = 27017
 
 """ CTF SETTINGS """
 
-enable_teachers = True
+enable_mentors = True
 enable_feedback = True
 
-competition_name = "picoCTF"
+competition_name = "nscCTF"
 competition_urls = ["127.0.0.1:8080"]
 
+
+#Min users on a =ny given team
+api.team.min_team_users = 3
+
 # Max users on any given team
-api.team.max_team_users = 5
+api.team.max_team_users = 6
 
 # Teams to display on scoreboard graph
 api.stats.top_teams = 5
 
 # start and end times!
-class EST(datetime.tzinfo):
+class WAT(datetime.tzinfo):
     def __init__(self, utc_offset):
         self.utc_offset = utc_offset
 
@@ -60,8 +64,8 @@ class EST(datetime.tzinfo):
     def dst(self, dt):
         return datetime.timedelta(0)
 
-start_time = datetime.datetime(2000, 10, 27, 12, 13, 0, tzinfo=EST(4))
-end_time = datetime.datetime(2055, 11, 7, 23, 59, 59, tzinfo=EST(5))
+start_time = datetime.datetime(2000, 10, 27, 12, 13, 0, tzinfo=WAT(4))
+end_time = datetime.datetime(2055, 11, 7, 23, 59, 59, tzinfo=WAT(5))
 
 # Root directory of all problem graders
 api.problem.grader_base_path = "./graders"
@@ -74,7 +78,7 @@ api.achievement.processor_base_path = "./achievements"
 
 """ SHELL SERVER """
 
-enable_shell = False
+enable_shell = True
 
 shell_host = "127.0.0.1"
 shell_username = "vagrant"

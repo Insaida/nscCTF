@@ -9,7 +9,7 @@ post_scripts:
  - js/team.js
 startup_functions:
  - redirectIfNotLoggedIn()
- - redirectIfTeacher()
+ - redirectIfmentor()
 ---
 <div class="container">
   <div class="row">
@@ -66,8 +66,8 @@ startup_functions:
             <input type="text" class="form-control class-class-name" id="group-name-input" placeholder="Class Name">
         </div>
         <div class="form-group">
-            <label class="sr-only" for="group-owner-input">Teacher</label>
-            <input type="text" class="form-control class-teacher-username" id="group-owner-input" placeholder="Teacher Username">
+            <label class="sr-only" for="group-owner-input">mentor</label>
+            <input type="text" class="form-control class-mentor-username" id="group-owner-input" placeholder="mentor Username">
         </div>
         <button class="btn btn-primary" id="join-group">Join</button>
       </div>

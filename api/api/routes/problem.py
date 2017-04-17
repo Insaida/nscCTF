@@ -3,7 +3,7 @@ from flask import Blueprint
 import api
 
 from api.common import WebSuccess, WebError
-from api.annotations import api_wrapper, require_login, require_teacher, require_admin, check_csrf
+from api.annotations import api_wrapper, require_login, require_mentor, require_admin, check_csrf
 from api.annotations import block_before_competition, block_after_competition
 from api.annotations import log_action
 

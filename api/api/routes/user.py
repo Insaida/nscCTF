@@ -7,7 +7,7 @@ import os.path
 
 from datetime import datetime
 from api.common import WebSuccess, WebError
-from api.annotations import api_wrapper, require_login, require_teacher, require_admin, check_csrf
+from api.annotations import api_wrapper, require_login, require_mentor, require_admin, check_csrf
 from api.annotations import block_before_competition, block_after_competition
 from api.annotations import log_action
 
@@ -67,7 +67,7 @@ def login_hook():
     username = request.form.get('username')
     password = request.form.get('password')
     api.auth.login(username, password)
-    return WebSuccess(message="Successfully logged in as " + username, data={'teacher': api.user.is_teacher()})
+    return WebSuccess(message="Successfully logged in as " + username, data={'mentor': api.user.is_mentor()})
 
 @blueprint.route('/logout', methods=['GET'])
 @api_wrapper
@@ -84,8 +84,8 @@ def status_hook():
     status = {
         "logged_in": api.auth.is_logged_in(),
         "admin": api.auth.is_admin(),
-        "teacher": api.auth.is_logged_in() and api.user.is_teacher(),
-        "enable_teachers": api.config.enable_teachers,
+        "mentor": api.auth.is_logged_in() and api.user.is_mentor(),
+        "enable_mentors": api.config.enable_mentors,
         "enable_feedback": api.config.enable_feedback,
         "shell": api.config.enable_shell,
         "enable_captcha": api.config.enable_captcha,

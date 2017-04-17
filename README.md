@@ -1,11 +1,11 @@
-picoCTF-Platform 2
+nscCTF-Platform 2
 ==============
 
-The picoCTF Platform 2 is the infrastructure on which picoCTF runs. The 
+The nscCTF Platform 2 is the infrastructure on which nscCTF runs. The 
 platform is designed to be easily adapted to other CTF or programming 
 competitions.
 
-picoCTF Platform 2 targets Ubuntu 14.04 LTS but should work on just about 
+nscCTF Platform 2 targets Ubuntu 14.04 LTS but should work on just about 
 any "standard" Linux distribution. It would probably even work on 
 Windows. MongoDB must be installed; all default configurations should 
 work.
@@ -48,7 +48,7 @@ All tests should pass with your changes.
 Getting Started
 ---------------
 
-A detailed explanation of the basics of the picoCTF Platform 2 can be found in our [Getting Started Guide](GettingStarted.md).
+A detailed explanation of the basics of the nscCTF Platform 2 can be found in our [Getting Started Guide](GettingStarted.md).
 
 
 Contact
@@ -64,4 +64,4 @@ License: MIT
 
 Credits: David Brumley, Tim Becker, Chris Ganas, Peter Chapman, Jonathan Burket
 
-Email: opensource@picoctf.com
+Email: opensource@nscCTF.com

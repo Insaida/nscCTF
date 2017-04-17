@@ -2,7 +2,7 @@ apiOffline =
   About: "/about"
   News: "/news"
 
-teacherLoggedIn =
+mentorLoggedIn =
   Problems: "/problems"
   Shell: "/shell"
   Scoreboard: "/scoreboard"
@@ -14,7 +14,7 @@ teacherLoggedIn =
     Manage: "/account"
     Logout: "#"
 
-teacherLoggedInNoCompetition =
+mentorLoggedInNoCompetition =
   Classroom: "/classroom"
   About: "/about"
   News: "/news"
@@ -67,11 +67,11 @@ loadNavbar = (renderNavbarLinks, renderNestedNavbarLinks) ->
     if data["status"] == 1
       if not data.data["logged_in"]
         $(".show-when-logged-out").css("display", "inline-block")
-      if data.data["teacher"]
+      if data.data["mentor"]
         if data.data["competition_active"]
-           navbarLayout.links = teacherLoggedIn
+           navbarLayout.links = mentorLoggedIn
         else
-           navbarLayout.links = teacherLoggedInNoCompetition
+           navbarLayout.links = mentorLoggedInNoCompetition
       else if data.data["logged_in"]
          if data.data["competition_active"]
             navbarLayout.links = userLoggedIn

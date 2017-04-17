@@ -37,7 +37,7 @@ teamSelectionHandler = (e) ->
 loadTeamSelection = (gid) ->
   apiCall "GET", "/api/group/member_information", {gid: gid}
   .done (data) ->
-    ga('send', 'event', 'Group', 'LoadTeacherGroupInformation', 'Success')
+    ga('send', 'event', 'Group', 'LoadmentorGroupInformation', 'Success')
     $("#team-selection").html renderTeamSelection({teams: data.data})
     $(".team-visualization-enabler").on "click", (e) ->
       teamSelectionHandler e
@@ -102,7 +102,7 @@ loadGroupManagement = (groups, showFirstTab, callback) ->
     groupName = $(this).data("group-name")
     apiCall "GET", "/api/group/member_information", {gid: $(this).data("gid")}
     .done (teamData) ->        
-        ga('send', 'event', 'Group', 'LoadTeacherGroupInformation', 'Success')
+        ga('send', 'event', 'Group', 'LoadmentorGroupInformation', 'Success')
         apiCall "GET", "/api/user/status", {}
         .done (userData) ->
             $(tabBody).html renderTeamSelection({teams: teamData.data, groupName: groupName, userStatus: userData.data})

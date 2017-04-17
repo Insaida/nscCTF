@@ -11,7 +11,7 @@ import api.team
 
 from api.common import safe_fail, WebException, InternalException
 from common import clear_collections, ensure_empty_collections
-from common import base_team, base_user, new_team_user, teacher_user
+from common import base_team, base_user, new_team_user, mentor_user
 from conftest import setup_db, teardown_db
 
 class TestUsers(object):
@@ -210,22 +210,22 @@ class TestUsers(object):
 
     @ensure_empty_collections("users", "teams")
     @clear_collections("users", "teams")
-    def test_create_teacher(self):
+    def test_create_mentor(self):
         """
-        Tests teacher account creation.
+        Tests mentor account creation.
 
         Covers:
             user.create_user_request
-            user.is_teacher
+            user.is_mentor
             user.get_all_users
         """
 
-        teacher_uid = api.user.create_user_request(teacher_user.copy())
+        mentor_uid = api.user.create_user_request(mentor_user.copy())
 
 
         eligible_uids = [u['uid'] for u in api.user.get_all_users()]
-        all_uids = [u['uid'] for u in api.user.get_all_users(show_teachers=True)]
+        all_uids = [u['uid'] for u in api.user.get_all_users(show_mentors=True)]
 
-        assert api.user.is_teacher(uid=teacher_uid), "Teacher account is not flagged as teacher"
-        assert teacher_uid not in eligible_uids, "Teacher was set to be eligible"
-        assert teacher_uid in all_uids, "Teacher was not in list of all users"
+        assert api.user.is_mentor(uid=mentor_uid), "mentor account is not flagged as mentor"
+        assert mentor_uid not in eligible_uids, "mentor was set to be eligible"
+        assert mentor_uid in all_uids, "mentor was not in list of all users"

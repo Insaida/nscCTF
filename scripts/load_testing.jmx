@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="2.6" jmeter="2.11 r1554548">
   <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="picoCTF Load Testing" enabled="true">
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="nscCTF Load Testing" enabled="true">
       <stringProp name="TestPlan.comments">Speeds are measured in milliseconds and duration is in seconds.</stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
@@ -17,8 +17,8 @@
             <stringProp name="Argument.value">Roy</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="SCHOOL" elementType="Argument">
-            <stringProp name="Argument.name">SCHOOL</stringProp>
+          <elementProp name="organization" elementType="Argument">
+            <stringProp name="Argument.name">organization</stringProp>
             <stringProp name="Argument.value">CMU</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
@@ -81,7 +81,7 @@
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
           <collectionProp name="Arguments.arguments"/>
         </elementProp>
-        <stringProp name="HTTPSampler.domain">staging.picoctf.com</stringProp>
+        <stringProp name="HTTPSampler.domain">staging.nscCTF.com</stringProp>
         <stringProp name="HTTPSampler.port">80</stringProp>
         <stringProp name="HTTPSampler.connect_timeout"></stringProp>
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -110,7 +110,7 @@
         <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
           <collectionProp name="AuthManager.auth_list">
             <elementProp name="" elementType="Authorization">
-              <stringProp name="Authorization.url">http://staging.picoctf.com/</stringProp>
+              <stringProp name="Authorization.url">http://staging.nscCTF.com/</stringProp>
               <stringProp name="Authorization.username"></stringProp>
               <stringProp name="Authorization.password"></stringProp>
               <stringProp name="Authorization.domain"></stringProp>
@@ -208,7 +208,7 @@
                 </elementProp>
                 <elementProp name="team-adv-name-new" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.value">${SCHOOL}</stringProp>
+                  <stringProp name="Argument.value">${organization}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">team-adv-name-new</stringProp>
@@ -220,12 +220,12 @@
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">team-adv-email-new</stringProp>
                 </elementProp>
-                <elementProp name="team-school-new" elementType="HTTPArgument">
+                <elementProp name="team-organization-new" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.value">${SCHOOL}</stringProp>
+                  <stringProp name="Argument.value">${organization}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                  <stringProp name="Argument.name">team-school-new</stringProp>
+                  <stringProp name="Argument.name">team-organization-new</stringProp>
                 </elementProp>
                 <elementProp name="country" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>

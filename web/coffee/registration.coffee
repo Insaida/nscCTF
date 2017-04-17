@@ -20,7 +20,7 @@ checkEligibility = ->
     is_us = $("#country-select").val() in ["US", ""]
     is_k12 = $("#background-select").val() in ["student_el", "student_ms", "student_hs", "student_home"]
     is_student = $("#background-select").val() in ["student_el", "student_ms", "student_hs", "student_home", "student_undergrad", "student_grad"]
-    is_teacher = $("#background-select").val() == "teacher"
+    is_mentor = $("#background-select").val() == "mentor"
 
     # This should be changed to reflect your eligibility requirements
     if not is_k12
@@ -29,11 +29,11 @@ checkEligibility = ->
         $("#eligibility-warning").hide()
 
     if is_student
-        $("#school-group").show()
+        $("#organization-group").show()
         if $("#registration-adviser-page").is(":visible")
             $("#button-new-team").click()
 
-    if is_teacher
+    if is_mentor
         $("#button-adviser").show()
     else
         $("#button-adviser").hide()
@@ -45,18 +45,18 @@ submitRegistration = (e) ->
 
   registrationData = $("#user-registration-form").serializeObject()
   creatingNewTeam = $("#registration-new-team-page").is(":visible")
-  creatingTeacherAccount = $("#registration-adviser-page").is(":visible")
+  creatingmentorAccount = $("#registration-adviser-page").is(":visible")
   registrationData["create-new-team"] = creatingNewTeam
-  registrationData["create-new-teacher"] = creatingTeacherAccount
+  registrationData["create-new-mentor"] = creatingmentorAccount
 
   if creatingNewTeam
     registrationData["ctf-emails"] = $("#checkbox-emails-create").is(':checked')
     submitButton = "#register-button-create"
     logType = "NewTeam"
-  else if creatingTeacherAccount
-    registrationData["ctf-emails"] = $("#checkbox-emails-teacher").is(':checked')
-    submitButton = "#register-button-teacher"
-    logType = "NewTeacher"
+  else if creatingmentorAccount
+    registrationData["ctf-emails"] = $("#checkbox-emails-mentor").is(':checked')
+    submitButton = "#register-button-mentor"
+    logType = "Newmentor"
   else
     registrationData["ctf-emails"] = $("#checkbox-emails-existing").is(':checked')
     submitButton = "#register-button-existing"
@@ -71,7 +71,7 @@ submitRegistration = (e) ->
         grecaptcha.reset()
       when 1
         ga('send', 'event', 'Registration', 'Success', logType)
-        if creatingTeacherAccount
+        if creatingmentorAccount
             document.location.href = "/classroom"
         else
             document.location.href = "/team"
@@ -115,7 +115,7 @@ $ ->
     $("#registration-new-team-page").hide "slide", { direction: "up" }, pageTransitionSpeed, () ->
         $("#registration-join-team-page").hide "slide", { direction: "up" }, pageTransitionSpeed, () ->
             $("#registration-adviser-page").show "slide", { direction: "up" }, pageTransitionSpeed, () ->
-                ga('send', 'event', 'Registration', 'Switch', 'Teacher')
+                ga('send', 'event', 'Registration', 'Switch', 'mentor')
                 setRequired()
 
 

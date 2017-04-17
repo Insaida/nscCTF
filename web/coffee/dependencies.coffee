@@ -5,7 +5,7 @@
   $.ajax {url: url, type: type, data: data, cache: false}
   .fail (jqXHR, text) ->
     ga('send', 'event', 'Error', 'APIOffline', url)
-    $.notify "The picoCTF server is currently down. We will work to fix this error right away.", "error"
+    $.notify "The nscCTF server is currently down. We will work to fix this error right away.", "error"
 
 @redirectIfNotLoggedIn = ->
   apiCall "GET", "/api/user/status", {}
@@ -25,13 +25,13 @@
           ga('send', 'event', 'Redirect', 'LoggedIn')
           window.location.href = "/"
 
-@redirectIfTeacher = ->
+@redirectIfmentor = ->
   apiCall "GET", "/api/user/status", {}
   .done (data) ->
     switch data["status"]
       when 1
-        if data.data["teacher"]
-          ga('send', 'event', 'Redirect', 'Teacher')
+        if data.data["mentor"]
+          ga('send', 'event', 'Redirect', 'mentor')
           window.location.href = "/classroom"
 
 getStyle = (data) ->

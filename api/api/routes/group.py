@@ -3,7 +3,7 @@ from flask import Blueprint
 import api
 
 from api.common import WebSuccess, WebError
-from api.annotations import api_wrapper, require_login, require_teacher, require_admin, check_csrf
+from api.annotations import api_wrapper, require_login, require_mentor, require_admin, check_csrf
 from api.annotations import block_before_competition, block_after_competition
 from api.annotations import log_action
 
@@ -37,7 +37,7 @@ def get_memeber_information_hook(gid=None):
 
 @blueprint.route('/score', methods=['GET'])
 @api_wrapper
-@require_teacher
+@require_mentor
 def get_group_score_hook():  #JB: Fix this
     name = request.args.get("group-name")
     if not api.group.is_owner_of_group(gid=name):
@@ -53,7 +53,7 @@ def get_group_score_hook():  #JB: Fix this
 @blueprint.route('/create', methods=['POST'])
 @api_wrapper
 @check_csrf
-@require_teacher
+@require_mentor
 def create_group_hook():
     gid = api.group.create_group_request(api.common.flat_multi(request.form))
     return WebSuccess("Successfully created group", gid)
@@ -77,7 +77,7 @@ def leave_group_hook():
 @blueprint.route('/delete', methods=['POST'])
 @api_wrapper
 @check_csrf
-@require_teacher
+@require_mentor
 def delete_group_hook():
     api.group.delete_group_request(api.common.flat_multi(request.form))
     return WebSuccess("Successfully deleted group")

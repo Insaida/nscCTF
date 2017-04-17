@@ -48,8 +48,8 @@ new_eligible_team_schema = Schema({
     ),
     Required('team-password-new'):
         check(("Team passphrase must be between 3 and 20 characters.", [str, Length(min=3, max=20)])),
-    Required('team-school-new'):
-        check(("School names must be between 3 and 100 characters.", [str, Length(min=3, max=100)]))
+    Required('team-organization-new'):
+        check(("organization names must be between 3 and 100 characters.", [str, Length(min=3, max=100)]))
 
 }, extra=True)
 
@@ -77,9 +77,9 @@ existing_team_schema = Schema({
         check(("Team passwords must be between 3 and 50 characters.", [str, Length(min=3, max=50)]))
 }, extra=True)
 
-teacher_schema = Schema({
-    Required('teacher-school'):
-        check(("School names must be between 3 and 100 characters.", [str, Length(min=3, max=100)]))
+mentor_schema = Schema({
+    Required('mentor-organization'):
+        check(("organization names must be between 3 and 100 characters.", [str, Length(min=3, max=100)]))
 }, extra=True)
 
 def hash_password(password):
@@ -139,7 +139,7 @@ def get_user(name=None, uid=None):
 
     return user
 
-def create_user(username, firstname, lastname, email, password_hash, tid, teacher=False,
+def create_user(username, firstname, lastname, email, password_hash, tid, mentor=False,
                 background="undefined", country="undefined", receive_ctf_emails=False):
     """
     This inserts a user directly into the database. It assumes all data is valid.
@@ -151,7 +151,7 @@ def create_user(username, firstname, lastname, email, password_hash, tid, teache
         email: user's email
         password_hash: a hash of the user's password
         tid: the team id to join
-        teacher: whether this account is a teacher
+        mentor: whether this account is a mentor
     Returns:
         Returns the uid of the newly created user
     """
@@ -178,7 +178,7 @@ def create_user(username, firstname, lastname, email, password_hash, tid, teache
         'email': email,
         'password_hash': password_hash,
         'tid': tid,
-        'teacher': teacher,
+        'mentor': mentor,
         'disabled': False,
         'background': background,
         'country': country,
@@ -189,12 +189,12 @@ def create_user(username, firstname, lastname, email, password_hash, tid, teache
 
     return uid
 
-def get_all_users(show_teachers=False):
+def get_all_users(show_mentors=False):
     """
     Finds all the users in the database
 
     Args:
-        show_teachers: whether or not to include teachers in the response
+        show_mentors: whether or not to include mentors in the response
     Returns:
         Returns the uid, username, and email of all users.
     """
@@ -204,9 +204,9 @@ def get_all_users(show_teachers=False):
     match = {}
     projection = {"uid": 1, "username": 1, "email": 1, "tid": 1}
 
-    if not show_teachers:
-        match.update({"teacher": False})
-        projection.update({"teacher": 1})
+    if not show_mentors:
+        match.update({"mentor": False})
+        projection.update({"mentor": 1})
 
     return list(db.users.find(match, projection))
 
@@ -241,8 +241,8 @@ def create_user_request(params):
         firstname: user's first name
         lastname: user's first name
         email: user's email
-        create-new-teacher:
-            boolean "true" indicating whether or not the user is a teacher
+        create-new-mentor:
+            boolean "true" indicating whether or not the user is a mentor
         create-new-team:
             boolean "true" indicating whether or not the user is creating a new team or
             joining an already existing team.
@@ -251,7 +251,7 @@ def create_user_request(params):
         team-password-existing: Password of existing team to join.
 
         team-name-new: Name of new team.
-        team-school-new: Name of the team's school.
+        team-organization-new: Name of the team's organization.
         team-password-new: Password to join team.
 
     """
@@ -262,16 +262,16 @@ def create_user_request(params):
         raise WebException("Incorrect captcha!")
 
     #Why are these strings? :o
-    if params.get("create-new-teacher", "false") == "true":
-        if not api.config.enable_teachers:
+    if params.get("create-new-mentor", "false") == "true":
+        if not api.config.enable_mentors:
             raise WebException("Could not create account")
 
-        validate(teacher_schema, params)
+        validate(mentor_schema, params)
 
         tid = api.team.create_team({
             "eligible": False,
-            "school": params["teacher-school"],
-            "team_name": "TEACHER-" + api.common.token()
+            "organization": params["mentor-organization"],
+            "team_name": "mentor-" + api.common.token()
         })
 
         return create_user(
@@ -281,7 +281,7 @@ def create_user_request(params):
             params["email"],
             hash_password(params["password"]),
             tid,
-            teacher=True,
+            mentor=True,
             background=params["background"],
             country=params["country"],
             receive_ctf_emails=params["ctf-emails"]
@@ -299,7 +299,7 @@ def create_user_request(params):
 
         team_params = {
             "team_name": params["team-name-new"],
-            "school": params["team-school-new"],
+            "organization": params["team-organization-new"],
             "password": params["team-password-new"],
             "eligible": eligible
         }
@@ -337,18 +337,18 @@ def create_user_request(params):
     api.team.determine_eligibility(tid=team['tid'])
     return uid
 
-def is_teacher(uid=None):
+def is_mentor(uid=None):
     """
-    Determines if a user is a teacher.
+    Determines if a user is a mentor.
 
     Args:
         uid: user's uid
     Returns:
-        True if the user is a teacher, False otherwise
+        True if the user is a mentor, False otherwise
     """
 
     user = get_user(uid=uid)
-    return user.get('teacher', False)
+    return user.get('mentor', False)
 
 def set_password_reset_token(uid, token):
     """

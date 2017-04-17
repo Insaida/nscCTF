@@ -79,7 +79,7 @@ def create_team(params):
 
     Args:
         team_name: Name of the team
-        school: Name of the school
+        organization: Name of the organization
         password: Team's password
         eligible: the teams eligibility
     Returns:
@@ -243,14 +243,14 @@ def determine_eligibility(tid=None):
         eligible = True
         justification = []
 
-        # By default, all teams (other than teacher teams or disqualified teams) are marked as
+        # By default, all teams (other than mentor teams or disqualified teams) are marked as
         # eligible. The following code demonstrates how to make it so only middle and high
-        # school students from the US are eligible.
+        # organization students from the US are eligible.
         #
         # for member in members:
         #    if member['background'] not in set(['student_hs', 'student_ms', 'student_el', 'student_home']):
         #        eligible = False
-        #        justification.append("User %s is not a middle or high school student" % member['username'])
+        #        justification.append("User %s is not a middle or high organization student" % member['username'])
         #    if member['country'] != "US":
         #        eligible = False
         #        justification.append("User %s is not from the United States" % member['username'])

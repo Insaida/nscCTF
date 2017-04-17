@@ -8,7 +8,7 @@ login = (e) ->
         ga('send', 'event', 'Authentication', 'LogIn', 'Failure::' + data.message)
       when 1
         ga('send', 'event', 'Authentication', 'LogIn', 'Success')
-        if (data.data['teacher'])
+        if (data.data['mentor'])
                 document.location.href = "/classroom"                
             else
                 document.location.href = "/team"
